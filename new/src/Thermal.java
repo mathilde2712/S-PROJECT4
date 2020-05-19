@@ -1,17 +1,18 @@
 import java.util.Date;
 
 //This class is used to store data from the database
-public class Observation {
+public class Thermal {
 	
 	private Date date;
-	private int temperatureIn;
-	private int temperatureOut;
-	private int ambientAirTemperature;
+	private double temperatureIn;
+	private double temperatureOut;
+	private double ambientAirTemperature;
 	private int irradiance;
-	private int v;
+	private double v;
 	private int time;
+	//calculation attributes. 
 	
-	public Observation (Date date, int temperatureIn, int temperatureOut, int ambientAirTemperature, int irradiance, int v,int time) {
+	public Thermal (Date date, double temperatureIn, double temperatureOut, double ambientAirTemperature, int irradiance, double v,int time) {
 		this.date = date;
 		this.temperatureIn = temperatureIn;
 		this.temperatureOut = temperatureOut;
@@ -26,22 +27,22 @@ public class Observation {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public int getTemperatureIn() {
+	public double getTemperatureIn() {
 		return temperatureIn;
 	}
-	public void setTemperatureIn(int temperatureIn) {
+	public void setTemperatureIn(double temperatureIn) {
 		this.temperatureIn = temperatureIn;
 	}
-	public int getTemperatureOut() {
+	public double getTemperatureOut() {
 		return temperatureOut;
 	}
-	public void setTemperatureOut(int temperatureOut) {
+	public void setTemperatureOut(double temperatureOut) {
 		this.temperatureOut=temperatureOut;
 	}
-	public int getAmbientAirTemperature() {
+	public double getAmbientAirTemperature() {
 		return  ambientAirTemperature;
 	}
-	public void setAmbientAirTemperature(int ambientAirTemperature) {
+	public void setAmbientAirTemperature(double ambientAirTemperature) {
 		this.ambientAirTemperature =  ambientAirTemperature;
 	}
 	public int getIrradiance() {
@@ -50,10 +51,10 @@ public class Observation {
 	public void setIrradiance(int irradiance) {
 		this.irradiance=irradiance;
 	}
-	public int getV() {
+	public double getV() {
 		return v;
 	}
-	public void setV(int v) {
+	public void setV(double v) {
 		this.v = v;
 	}
 	public int getTime() {
