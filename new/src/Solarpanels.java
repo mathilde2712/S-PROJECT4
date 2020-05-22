@@ -19,10 +19,10 @@ public class Solarpanels {
 	public void setPlace(String place) {
 		this.place = place;
 	}
-	public int getNumberOfPanes(){
+	public int getNumberOfPanels(){
 		return numberOfPanels;
 	}
-	public void setNumberOfPanes(int numberOfPanles) {
+	public void setNumberOfPanels(int numberOfPanles) {
 		this.numberOfPanels = numberOfPanels;
 	}
 	public String getProducer(){
@@ -38,6 +38,8 @@ public class Solarpanels {
 		this.installationYear = installationYear;
 	}
 	
-	
+	public String toString() {
+		return "Place: " + place + " Number of panels: " + numberOfPanels + " Producer: " + producer + " Installation year: " + installationYear;
+	}
 
 }

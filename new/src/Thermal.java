@@ -10,9 +10,14 @@ public class Thermal {
 	private int irradiance;
 	private double v;
 	private int time;
+	private double Q;
+	private double heatOutput;
+	private double effeciency;
+	private double liquidTemperature;
+	private double tmta;
 	//calculation attributes. 
 	
-	public Thermal (Date date, double temperatureIn, double temperatureOut, double ambientAirTemperature, int irradiance, double v,int time) {
+	public Thermal (Date date, double temperatureIn, double temperatureOut, double ambientAirTemperature, int irradiance, double v,int time, double heatOutput, double effeciency, double liquidTemperature, double tmta) {
 		this.date = date;
 		this.temperatureIn = temperatureIn;
 		this.temperatureOut = temperatureOut;
@@ -20,6 +25,11 @@ public class Thermal {
 		this.irradiance = irradiance;
 		this.v = v;
 		this.time = time;
+		this.Q = Q;
+		this.heatOutput = heatOutput;
+		this.effeciency = effeciency;
+		this.liquidTemperature = liquidTemperature;
+		this.tmta = tmta;
 	}
 	public Date getDate(){
 		return date;
@@ -63,9 +73,40 @@ public class Thermal {
 	public void setTime(int time) {
 		this.time = time;
 	}
-	
+	public double getQ() {
+		return Q;
+	}
+	public void setQ(double Q) {
+		this.Q = Q;
+	}
+	public double getHeatOutput() {
+		return heatOutput;
+	}
+	public void setHeatOutput(double heatOutput) {
+		this.heatOutput = heatOutput;
+	}
+	public double getEffeciency() {
+		return effeciency;
+	}
+	public void setEffeciency(double effeciency) {
+		this.effeciency = effeciency;
+	}
+	public double getLiquidTemperature() {
+		return liquidTemperature;
+	}
+	public void setLiquidTemperature(double liquidTemperature) {
+		this.liquidTemperature = liquidTemperature;
+	}
+	public double getTmta() {
+		return tmta;
+	}
+	public void setTmta(double Tmta) {
+		this.tmta = tmta;
+	}
 	public String toString() {
-		return "Date: " + date + ", Temperature In: " + temperatureIn + ", Temperature Out: " + temperatureOut + ", Ambient Air Temperature: " + ambientAirTemperature + ", Irradiance: " + irradiance + ", v " + v + ", Time: " + time; 
+		return "Date: " + date + ", Temperature In: " + temperatureIn + ", Temperature Out: " + temperatureOut + ", Ambient Air Temperature: " + ambientAirTemperature + ", Irradiance: " + irradiance + ", v " + v + ", Time: " + time 
+				+ " Q: " + Q + " Heat Output: " + heatOutput + " Effeciency: " + effeciency + " Liquid temperature: " + liquidTemperature + " Tm-Ta: " + tmta; 
+		
 	}
 }
 
