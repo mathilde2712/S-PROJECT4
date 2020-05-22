@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SolarController">
+   <children>
+      <BorderPane layoutX="2.0" layoutY="7.0" prefHeight="391.0" prefWidth="600.0">
+         <top>
+            <HBox prefHeight="110.0" prefWidth="600.0" style="-fx-background-color: deepskyblue;" BorderPane.alignment="CENTER">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Solarpanels" textAlignment="CENTER" wrappingWidth="597.4296875">
+                     <font>
+                        <Font name="Gadugi" size="80.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </top>
+         <left>
+            <VBox prefHeight="281.0" prefWidth="300.0" style="-fx-background-color: white; -fx-border-color: white;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="pvButton" mnemonicParsing="false" onAction="#handlePvButton" prefHeight="60.0" prefWidth="315.0" style="-fx-background-color: skyblue;" text="PV - Panels" textFill="WHITE">
+                     <font>
+                        <Font name="Gadugi" size="27.0" />
+                     </font>
+                  </Button>
+                  <HBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="298.0">
+                     <children>
+                        <ImageView fitHeight="109.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Documents/SEP4/pv-panel.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextArea prefHeight="100.0" prefWidth="209.0" promptText="Check for effeciency and weekly reports on how the PV system is performing">
+                           <font>
+                              <Font name="Gadugi" size="15.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </left>
+         <right>
+            <VBox prefHeight="281.0" prefWidth="300.0" style="-fx-background-color: white; -fx-border-color: white;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="thermalButton" mnemonicParsing="false" onAction="#handleThermalButton" prefHeight="60.0" prefWidth="315.0" style="-fx-background-color: skyblue;" text="Thermal Panels" textFill="WHITE">
+                     <font>
+                        <Font name="Gadugi" size="27.0" />
+                     </font>
+                  </Button>
+                  <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="298.0">
+                     <children>
+                        <ImageView fitHeight="132.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Documents/SEP4/thermal.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextArea prefHeight="100.0" prefWidth="214.0" promptText="Check for effeciency and weekly reports on how the Thermal system is performing">
+                           <font>
+                              <Font name="Gadugi" size="15.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
