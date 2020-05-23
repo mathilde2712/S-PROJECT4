@@ -12,8 +12,7 @@ public class DataGenerator extends Thread{
 	private final int averageTime = 20;
 	private final double maxCurrent = 0.75;
 	private final double maxVolt = 19.5;
-	private final int waitTime = 3000; //Find ud af hvor mange sekunder/minutter mellem hver måling.
-	//calculations
+	private final int waitTime = 10000; //Find ud af hvor mange sekunder/minutter mellem hver måling.
 	
 	public DataGenerator(JDBCConnector connection) {
 		this.connection = connection;
@@ -43,8 +42,14 @@ public class DataGenerator extends Thread{
 			Date date = new Date();
 			System.out.println("Time: " + date);
 			
-			Thermal observationTherm = new Thermal(date, temperatureIn, temperatureOut, ambientAirTemperature, irradiance, v, time);
-			connection.storeAsNewObservation(observationTherm);
+			double liquidTemperature = (temperatureIn+temperatureOut)/2;
+			double tmta = liquidTemperature - ambientAirTemperature;
+			double Q = v *4100*tmta;
+			double heatOutput = Q/time; 
+			double effeciency = heatOutput/(0.913*irradiance);
+			
+			Thermal observation = new Thermal(date, temperatureIn, temperatureOut, ambientAirTemperature, irradiance, v, time, Q, heatOutput, effeciency, liquidTemperature, tmta);
+			connection.storeAsNewThermalObservation(observation);
 			
 			try {
 				Thread.sleep(waitTime);
@@ -63,17 +68,22 @@ public class DataGenerator extends Thread{
 			System.out.println("Volt: " + volt);
 			
 			int irradiance =800;
+			System.out.println("Irradiance: " + irradiance);
 			
 			double R = volt/current;
+			System.out.println("R: " + R);
 			
 			double power = current * volt;
+			System.out.println("power: " + power);
 			
 			double effeciency = (power/irradiance*0.0761*1000)*100;
+			System.out.println("Effeciency: " + effeciency);
 			
 			Date date = new Date();
+			System.out.println("Date: " + date);
 			
-			PV observationPv = new PV(date, current, volt, irradiance, R, power, effeciency);
-			connection.storeAsNewObservation(observationPv);
+			PV observation = new PV(date, current, volt, irradiance, R, power, effeciency);
+			connection.storeAsNewPVObservation(observation);
 		}
 	}
 

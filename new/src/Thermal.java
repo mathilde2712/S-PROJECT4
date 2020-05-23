@@ -14,10 +14,9 @@ public class Thermal {
 	private double heatOutput;
 	private double effeciency;
 	private double liquidTemperature;
-	private double tmta;
-	//calculation attributes. 
+	private double tmta; 
 	
-	public Thermal (Date date, double temperatureIn, double temperatureOut, double ambientAirTemperature, int irradiance, double v,int time, double heatOutput, double effeciency, double liquidTemperature, double tmta) {
+	public Thermal (Date date, double temperatureIn, double temperatureOut, double ambientAirTemperature, int irradiance, double v,int time, double Q, double heatOutput, double effeciency, double liquidTemperature, double tmta) {
 		this.date = date;
 		this.temperatureIn = temperatureIn;
 		this.temperatureOut = temperatureOut;
