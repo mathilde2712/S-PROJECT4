@@ -1,6 +1,8 @@
 import java.util.Date;
 //For at generere og gemme ny data
 
+import application.JDBCConnector;
+
 public class DataGenerator extends Thread{
 	private JDBCConnector connection;
 	
@@ -42,11 +44,11 @@ public class DataGenerator extends Thread{
 			Date date = new Date();
 			System.out.println("Time: " + date);
 			
-			double liquidTemperature = (temperatureIn+temperatureOut)/2;
-			double tmta = liquidTemperature - ambientAirTemperature;
-			double Q = v *4100*tmta;
-			double heatOutput = Q/time; 
-			double effeciency = heatOutput/(0.913*irradiance);
+			double liquidTemperature = Math.floor((temperatureIn+temperatureOut)/2);
+			double tmta = Math.floor(liquidTemperature - ambientAirTemperature);
+			double Q =Math.floor( v *4100*tmta);
+			double heatOutput = Math.floor(Q/time); 
+			double effeciency = Math.floor(heatOutput/(0.913*irradiance));
 			
 			Thermal observation = new Thermal(date, temperatureIn, temperatureOut, ambientAirTemperature, irradiance, v, time, Q, heatOutput, effeciency, liquidTemperature, tmta);
 			connection.storeAsNewThermalObservation(observation);
@@ -70,13 +72,13 @@ public class DataGenerator extends Thread{
 			int irradiance =800;
 			System.out.println("Irradiance: " + irradiance);
 			
-			double R = volt/current;
+			double R = Math.floor(volt/current);
 			System.out.println("R: " + R);
 			
-			double power = current * volt;
+			double power = Math.floor(current * volt);
 			System.out.println("power: " + power);
 			
-			double effeciency = (power/irradiance*0.0761*1000)*100;
+			double effeciency = Math.floor((power/irradiance*0.0761*1000)*100);
 			System.out.println("Effeciency: " + effeciency);
 			
 			Date date = new Date();
@@ -84,6 +86,27 @@ public class DataGenerator extends Thread{
 			
 			PV observation = new PV(date, current, volt, irradiance, R, power, effeciency);
 			connection.storeAsNewPVObservation(observation);
+			try {
+				Thread.sleep(waitTime);
+			} catch (InterruptedException e) {
+				System.out.println("Thread sleeping interrupted");
+				e.printStackTrace();
+			}
+		}
+	}
+	public void runMeasure() {
+		while(true) {
+			Date time = new Date();
+			System.out.println("Time: " + time);
+			Measurements observation = new Measurements(time);
+			connection.storeAsNewMeasureObservation(observation);
+			
+			try {
+				Thread.sleep(waitTime);
+			} catch (InterruptedException e) {
+				System.out.println("Thread sleeping interrupted");
+				e.printStackTrace();
+			}
 		}
 	}
 
