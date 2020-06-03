@@ -6,23 +6,24 @@ import java.util.Date;
 public class JDBCConnector {
 private Connection connection;
 
-public Connection connect(int portNo, String userName, String password) {
-	// Establishing a PostgreSQL database connection
-	String databaseUrl = "jdbc:postgresql://drona.db.elephantsql.com:" + portNo + "/mdandwle";
+	public Connection connect(int portNo, String userName, String password) {
+	
+		// Establishing a PostgreSQL database connection
+		String databaseUrl = "jdbc:postgresql://drona.db.elephantsql.com:" + portNo + "/mdandwle";
 
-	try {
-		connection = DriverManager.getConnection(databaseUrl, userName, password);
-		System.out.println("Connection established to: " + databaseUrl);
-	} 
-	catch (Exception exception) {
-		System.out.println("Connection failed");
-		exception.printStackTrace();
-	}
-	return connection;
-}	
+		try {
+			connection = DriverManager.getConnection(databaseUrl, userName, password);
+			System.out.println("Connection established to: " + databaseUrl);
+		} 
+		catch (Exception exception) {
+			System.out.println("Connection failed");
+			exception.printStackTrace();
+		}
+		return connection;
+	}	
 
 	public double outputPV() throws SQLException {
-		//Used to display the daily output of the pv panel. 
+		// Used to display the daily output of the pv panel. 
 		 String query = "SELECT SUM(power) as output FROM Solarpanel.PV WHERE date BETWEEN '2020-06-01' AND '2020-06-01 17:00:00';";
 
 	      // create the java statement
@@ -34,13 +35,14 @@ public Connection connect(int portNo, String userName, String password) {
 	      // iterate through the java resultset
 	      rs.next();
 	      
-	       double output = rs.getDouble("output");
+	      double output = rs.getDouble("output");
 	 
 	      return output;
 	}
 	public double outputThermal() throws SQLException {
-		//Used to display the daily output of the  panel
-		 String query = "SELECT SUM(heatOutput) as output FROM Solarpanel.Thermal WHERE date BETWEEN '2020-06-01' AND '2020-06-01 17:00:00';";
+		// Used to display the daily output of the  panel
+		
+		  String query = "SELECT SUM(heatOutput) as output FROM Solarpanel.Thermal WHERE date BETWEEN '2020-06-01' AND '2020-06-01 17:00:00';";
 
 	      Statement statement = connection.createStatement();
 	      ResultSet rs = statement.executeQuery(query);
@@ -52,56 +54,60 @@ public Connection connect(int portNo, String userName, String password) {
 	}
 	
 	public void storeAsNewPVObservation(PV observation) {
-
+		// Used to store new observation 
 		
 		String sql = "INSERT INTO Solarpanel.PV (date, current, volt, irradiance, R, power, efficiency) VALUES ('" + convertToSqlTimestamp(observation.getDate()) + "', '" + observation.getCurrent() + "', '" + observation.getVolt() + "', '" + observation.getIrradiance() + "', '" + observation.getR() + "', '" + observation.getPower() + "', '" + observation.getEffeciency() + "');";
 		
 		try {
+			
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
+			
 		} catch (SQLException e) {
+			
 			System.out.println("Error trying to insert a new observation in PV table");
 			e.printStackTrace();
 		}
+		
+		// Creates a new warning message an stores it in the database if the desired value is not met. 
 		if(observation.getPower()<2) {
+			
 			Messages mess = new Messages("Warning: genereted energy from PV-panels is under expected. Check panels");
 			String query = "INSERT INTO Solarpanel.Messages (message) VALUES ('" + mess.getMessage() + "');" ;
-			try {
-				Statement statement = connection.createStatement();
-				statement.execute(query);
-			} catch (SQLException e) {
-				System.out.println("Error trying to insert a new observation in Message table");
-				e.printStackTrace();
-			}
-			String sql2 = "SELECT * FROM Solarpanel.Messages;";
 			
 			try {
+				
 				Statement statement = connection.createStatement();
-				 ResultSet rs = statement.executeQuery(sql2);
-				while(rs.next()) {
-					int id = rs.getInt("id");
-					String message = rs.getString("message");
-					Date time = rs.getDate("time");
-				}
+				statement.execute(query);
+				
 			} catch (SQLException e) {
-				System.out.println("error selection all from message table");
+				
+				System.out.println("Error trying to insert a new observation in Message table");
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	public void storeAsNewMeasureObservation(Measurements observation) {
+		
+		// Used to store new observation 
+		
 		String sql = "INSERT INTO Solarpanel.Measurements(time) VALUES ('" + convertToSqlTimestamp(observation.getTime()) + "');";
+		
 		try {
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
+			
 		} catch (SQLException e) {
+			
 			System.out.println("Error trying to insert a new observation in Measures table");
 			e.printStackTrace();
 		}
 	}
+	
 	public void storeAsNewThermalObservation(Thermal observation) {
-
+		// Used to store new observation 
+		
 		String sql = "INSERT INTO Thermal (date, temperatureIn, temperatureOut, ambientAirTemperature, irradiance, v, time, Q, heatOutput, effeciency, liquidTemperature, tmta) "
 				+ "VALUES ('" + convertToSqlTimestamp(observation.getDate()) + "', '" + observation.getTemperatureIn() + "', '" + observation.getTemperatureOut() + "', " + observation.getAmbientAirTemperature() + "', '" + observation.getIrradiance() + "', '" + observation.getV() + "', '" + observation.getTime()
 				+ "', '" + observation.getQ() + "', '" + observation.getHeatOutput() + "', '" + observation.getEffeciency() + "', '" + observation.getLiquidTemperature() + "', '" + observation.getTmta() + "');";
@@ -109,32 +115,26 @@ public Connection connect(int portNo, String userName, String password) {
 		try {
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
+			
 		} catch (SQLException e) {
+			
 			System.out.println("Error trying to insert a new observation in Thermal table");
 			e.printStackTrace();
 		}
+		
+		// Creates a new warning message an stores it in the database if the desired value is not met.
 		if(observation.getHeatOutput()<10) {
+			
 			Messages mess = new Messages("Warning: generated heat from Thermal-panels is under expected. Check Panels");
 			String query = "INSERT INTO Solarpanel.Messages (message) VALUES ('" + mess.getMessage() + "');" ;
-			try {
-				Statement statement = connection.createStatement();
-				statement.execute(query);
-			} catch (SQLException e) {
-				System.out.println("Error trying to insert a new observation in Message table");
-				e.printStackTrace();
-			}
-			String sql2 = "SELECT * FROM Solarpanel.Messages;";
 			
 			try {
 				Statement statement = connection.createStatement();
-				 ResultSet rs = statement.executeQuery(sql2);
-				while(rs.next()) {
-					int id = rs.getInt("id");
-					String message = rs.getString("message");
-					Date time = rs.getDate("time");
-				}
+				statement.execute(query);
+				
 			} catch (SQLException e) {
-				System.out.println("error selection all from message table");
+				
+				System.out.println("Error trying to insert a new observation in Message table");
 				e.printStackTrace();
 			}
 		}

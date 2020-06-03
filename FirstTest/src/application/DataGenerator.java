@@ -3,42 +3,44 @@ import java.util.Date;
 //To generate and store new data
 
 public class DataGenerator extends Thread{
-	private JDBCConnector connection;
 	
-	private final double maxTemperatureIn = 25;
-	private final double maxTemperatureOut = 62;
-	private final double maxAmbientAirTemperature = 18.5;
-	private final int maxIrradiance = 1015;
-	private final double maxV = 0.99;
-	private final int averageTime = 20;
-	private final double maxCurrent = 0.75;
-	private final double maxVolt = 19.5;
-	private final int waitTime = 10000; 
+	private JDBCConnector connection;
+	private final double  MAX_TEMPERATURE_IN = 25;
+	private final double MAX_TEMPERATURE_OUT = 62;
+	private final double MAX_AMBIENT_AIRTEMPERATURE = 18.5;
+	private final int MAX_IRRADIANCE = 1015;
+	private final double MAX_V = 0.99;
+	private final int  AVERAGE_TIME  = 20;
+	private final double MAX_CURRENT = 0.75;
+	private final double MAX_VOLT = 19.5;
+	private final int WAIT_TIME = 10000; 
 	
 	public DataGenerator(JDBCConnector connection) {
 		this.connection = connection;
 	}
 	
+	//Generating random numbers to simulate a solar cell receiving inputs
 	public void runThermal() {
 		while(true) {
-			double temperatureIn= (double)Math.floor(Math.random()*(maxTemperatureIn - 10 + 1))+10;
+			
+			double temperatureIn= (double)Math.floor(Math.random()*(MAX_TEMPERATURE_IN - 10 + 1))+10;
 			System.out.println("Temperature In: " + temperatureIn);
 			
-			double temperatureOut= (double)Math.floor(Math.random()*(maxTemperatureOut- 20 +1))+20;
+			double temperatureOut= (double)Math.floor(Math.random()*(MAX_TEMPERATURE_OUT- 20 +1))+20;
 			System.out.println("Temperature Out: " + temperatureOut);
 			
-			double ambientAirTemperature= (double)Math.floor(Math.random()*(maxAmbientAirTemperature- 16.8 +1))+20;
+			double ambientAirTemperature= (double)Math.floor(Math.random()*(MAX_AMBIENT_AIRTEMPERATURE- 16.8 +1))+20;
 			System.out.println("Ambient Ai rTemperature: " + ambientAirTemperature);
 			
-			int irradiance= (int)Math.floor(Math.random()*(maxIrradiance-980 + 1))+980;
+			int irradiance= (int)Math.floor(Math.random()*(MAX_IRRADIANCE-980 + 1))+980;
 			System.out.println("Irradiance: " + irradiance);
 			
-			double v= (double)Math.floor(Math.random()*(maxV - 0.01 + 1))+0.01;
+			double v= (double)Math.floor(Math.random()*(MAX_V - 0.01 + 1))+0.01;
 			System.out.println("V: " + v);
 			
-			int time= averageTime;
+			int time= AVERAGE_TIME;
 			System.out.println("Time: " + time);
-			//time er en konstant derfor ikke nødvendig at udregne. 
+			 
 			Date date = new Date();
 			System.out.println("Time: " + date);
 			
@@ -57,19 +59,22 @@ public class DataGenerator extends Thread{
 			connection.storeAsNewThermalObservation(observation);
 			
 			try {
-				Thread.sleep(waitTime);
+				//Time between the measurements
+				Thread.sleep(WAIT_TIME);
 			} catch (InterruptedException e) {
 				System.out.println("Thread sleeping interrupted");
 				e.printStackTrace();
 			}
 		}
 	}
+	
 	public void runPv() {
 		while(true) {
-			double current= (double)Math.floor(Math.random()*(maxCurrent-0.11+1))+0.11;
+			
+			double current= (double)Math.floor(Math.random()*(MAX_CURRENT-0.11+1))+0.11;
 			System.out.println("Current: " + current);
 			
-			double volt= (double)Math.floor(Math.random()*(maxVolt-0.30+1))+0.30;
+			double volt= (double)Math.floor(Math.random()*(MAX_VOLT-0.30+1))+0.30;
 			System.out.println("Volt: " + volt);
 			
 			int irradiance =800;
@@ -88,9 +93,11 @@ public class DataGenerator extends Thread{
 			System.out.println("Date: " + date);
 			
 			PV observation = new PV(date, current, volt, irradiance, R, power, effeciency);
+			
 			connection.storeAsNewPVObservation(observation);
+			
 			try {
-				Thread.sleep(waitTime);
+				Thread.sleep(WAIT_TIME);
 			} catch (InterruptedException e) {
 				System.out.println("Thread sleeping interrupted");
 				e.printStackTrace();
@@ -106,7 +113,7 @@ public class DataGenerator extends Thread{
 			connection.storeAsNewMeasureObservation(observation);
 			
 			try {
-				Thread.sleep(waitTime);
+				Thread.sleep(WAIT_TIME);
 			} catch (InterruptedException e) {
 				System.out.println("Thread sleeping interrupted");
 				e.printStackTrace();
