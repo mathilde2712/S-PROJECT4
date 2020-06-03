@@ -1,17 +1,22 @@
+package application;
 import java.util.Date;
+//This class is used to store data from the database
 
 public class Measurements {
-	private Date date;
+	private Date time;
 	
-	public Measurements(Date date) {
-		this.date = date;
+	public Measurements(Date time) {
+		this.time = time;
 	}
 	
-	public Date getDate(){
-		return date;
+	public Date getTime(){
+		return time;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	public String toString() {
+		return "Time: " + time;
 	}
 
 }

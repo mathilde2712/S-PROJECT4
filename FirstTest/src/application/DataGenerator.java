@@ -1,7 +1,6 @@
+package application;
 import java.util.Date;
-//For at generere og gemme ny data
-
-import application.JDBCConnector;
+//To generate and store new data
 
 public class DataGenerator extends Thread{
 	private JDBCConnector connection;
@@ -14,7 +13,7 @@ public class DataGenerator extends Thread{
 	private final int averageTime = 20;
 	private final double maxCurrent = 0.75;
 	private final double maxVolt = 19.5;
-	private final int waitTime = 10000; //Find ud af hvor mange sekunder/minutter mellem hver måling.
+	private final int waitTime = 10000; 
 	
 	public DataGenerator(JDBCConnector connection) {
 		this.connection = connection;
@@ -22,7 +21,6 @@ public class DataGenerator extends Thread{
 	
 	public void runThermal() {
 		while(true) {
-			// lave korrekte 'udregninger'
 			double temperatureIn= (double)Math.floor(Math.random()*(maxTemperatureIn - 10 + 1))+10;
 			System.out.println("Temperature In: " + temperatureIn);
 			
@@ -44,10 +42,15 @@ public class DataGenerator extends Thread{
 			Date date = new Date();
 			System.out.println("Time: " + date);
 			
+			//Calculations received from the mechanical students. 
 			double liquidTemperature = Math.floor((temperatureIn+temperatureOut)/2);
+			
 			double tmta = Math.floor(liquidTemperature - ambientAirTemperature);
+			
 			double Q =Math.floor( v *4100*tmta);
+			
 			double heatOutput = Math.floor(Q/time); 
+			
 			double effeciency = Math.floor(heatOutput/(0.913*irradiance));
 			
 			Thermal observation = new Thermal(date, temperatureIn, temperatureOut, ambientAirTemperature, irradiance, v, time, Q, heatOutput, effeciency, liquidTemperature, tmta);
@@ -96,6 +99,7 @@ public class DataGenerator extends Thread{
 	}
 	public void runMeasure() {
 		while(true) {
+			
 			Date time = new Date();
 			System.out.println("Time: " + time);
 			Measurements observation = new Measurements(time);

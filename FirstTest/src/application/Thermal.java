@@ -1,3 +1,4 @@
+package application;
 import java.util.Date;
 
 //This class is used to store data from the database

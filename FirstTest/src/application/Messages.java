@@ -1,16 +1,16 @@
 package application;
 
 import java.util.Date;
-
+//This class is used to store data from the database
 public class Messages {
 	private int id;
 	private String message;
-	private Date date;
+	private Date time;
 	
-	public Messages (int id, String message, Date date) {
+	public Messages (int id, String message, Date time) {
 		this.id = id;
 		this.message = message;
-		this.date = date; 
+		this.time = time; 
 	}
 	public Messages(String message) {
 		this.message = message;
@@ -28,11 +28,16 @@ public class Messages {
 	public void setMessage(String message) {
 		this.message= message;
 	}
-	public Date getDate() {
-		return date;
+	
+	public Date getTime() {
+		return time;
 	}
-	public void setDate(Date date) {
-		this.date= date;
+	public void setTime(Date time) {
+		this.time= time;
+	}
+	
+	public String toString() {
+		return "Id: " + " Message: " + message + "date: " + time;
 	}
 	
 

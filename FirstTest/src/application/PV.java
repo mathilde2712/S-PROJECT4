@@ -1,6 +1,8 @@
+package application;
 import java.util.Date;
 
 public class PV {
+	//This class is used to store data from the database
 	
 	private Date date;
 	private double current;
@@ -8,9 +10,9 @@ public class PV {
 	private int irradiance;
 	private double R;
 	private double power;
-	private double effeciency;
-	// the calculations 
+	private double effeciency; 
 	
+	//Constructor
 	public PV(Date date, double current, double volt, int irradiance, double R, double power, double effeciency) {
 		this.date = date;
 		this.current = current;
